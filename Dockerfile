@@ -14,14 +14,18 @@ RUN npm install
 # Copy source code
 COPY . .
 
-# Build TypeScript
+# Build TypeScript and Frontend
 RUN npm run build
+RUN npm run frontend:build
 
 # Create necessary directories
 RUN mkdir -p db logs data
 
 # Expose port
 EXPOSE 3000
+
+# Set production environment
+ENV NODE_ENV=production
 
 # Start the API server
 CMD ["node", "dist/api/index.js"] 

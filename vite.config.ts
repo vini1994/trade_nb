@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import autoprefixer from 'autoprefixer';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [vue()],
   css: {
     postcss: {
@@ -20,11 +20,13 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://trade-api-production.up.railway.app',
+        target: mode === 'production' 
+          ? 'https://trade-api-production.up.railway.app'
+          : 'http://localhost:3000',
         changeOrigin: true,
-        secure: true,
+        secure: mode === 'production',
         //rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
   }
-}); 
+})); 

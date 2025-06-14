@@ -34,10 +34,11 @@ const alertSound = ref<HTMLAudioElement | null>(null)
 
 const connectWebSocket = () => {
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-  const host = window.location.hostname === 'localhost' 
-    ? 'localhost:3000' 
-    : 'trade-api-production.up.railway.app'
-  const wsUrl = `${protocol}//${host}`
+  // Detecta se está em produção ou desenvolvimento
+  const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+  const wsUrl = isProduction 
+    ? `wss://trade-api-production.up.railway.app`
+    : `${protocol}//localhost:3000`
   
   ws = new WebSocket(wsUrl)
 
