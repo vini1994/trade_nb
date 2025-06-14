@@ -4,4 +4,8 @@ builder = "dockerfile"
 [deploy]
 healthcheckPath = "/"
 healthcheckTimeout = 300
-restartPolicyType = "always" 
+restartPolicyType = "always"
+
+[environments.production.variables]
+NODE_ENV = "production"
+PORT = "3000" 
