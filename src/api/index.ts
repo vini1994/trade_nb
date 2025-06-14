@@ -29,10 +29,24 @@ wss.on('connection', (ws) => {
 });
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: [
+    'http://localhost:5173', 
+    'http://127.0.0.1:5173',
+    'https://trade-api-production.up.railway.app'
+  ],
   credentials: true
 }));
 app.use(express.json());
+
+// Health check route
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    message: 'Trade NB API is running',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
 
 // API Routes
 app.use('/api', tradeRoutes);
@@ -63,5 +77,6 @@ if (process.env.NODE_ENV === 'production') {
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-    console.log(`WebSocket server is running on ws://localhost:${PORT}`);
+    console.log(`WebSocket server is running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 }); 

@@ -17,11 +17,11 @@ COPY . .
 # Build TypeScript
 RUN npm run build
 
-# Create db directory
-RUN mkdir -p db
+# Create necessary directories
+RUN mkdir -p db logs data
 
 # Expose port
 EXPOSE 3000
 
 # Start the API server
-CMD ["npm", "run", "api"] 
+CMD ["node", "dist/api/index.js"] 
